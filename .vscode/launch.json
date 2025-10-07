@@ -1,13 +1,13 @@
+//copilot
 {
   "version": "0.2.0",
   "configurations": [
     {
       "name": "Launch Chrome (Live Server)",
-      "type": "pwa-chrome",
+      "type": "chrome",
       "request": "launch",
       "url": "http://127.0.0.1:5500/tower%20of%20trials/index.html",
       "webRoot": "${workspaceFolder}/tower of trials",
-      "breakOnLoad": false,
       "sourceMaps": true
     }
   ]
