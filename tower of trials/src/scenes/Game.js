@@ -21,12 +21,13 @@ export class Game extends Phaser.Scene {
 
         this.bg = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'tiles', 1)
             .setOrigin(0, 0)
+            .setScrollFactor(0)
             .setDepth(-100);
         
         this.updateCameraFit();
 
         this.scale.on('resize', (size) => {
-            this.bg.setSize(this.scale.width, this.scale.height);
+            this.bg.setSize(this.scale.gameSize.width, this.scale.gameSize.height);
             this.updateCameraFit();
         });
     }
