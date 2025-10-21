@@ -18,11 +18,20 @@ export class Game extends Phaser.Scene {
         this.initMap();
         this.initPlayer();
         this.initPhysics();
-        this.updateCameraZoom();
-        this.scale.on('resize', () => this.updateCameraZoom());
+
+        this.bg = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'tiles', 1)
+            .setOrigin(0, 0)
+            .setDepth(-100);
+        
+        this.updateCameraFit();
+
+        this.scale.on('resize', (size) => {
+            this.bg.setSize(this.scale.width, this.scale.height);
+            this.updateCameraFit();
+        });
     }
 
-    updateCameraZoom(){
+    updateCameraFit() {
         const worldW = this.mapWidth * this.tileSize;
         const worldH = this.mapHeight * this.tileSize;
 
@@ -30,7 +39,9 @@ export class Game extends Phaser.Scene {
         const viewH = this.scale.height;
 
         const zoom = Math.min(viewW / worldW, viewH / worldH);
+
         this.cameras.main.setZoom(zoom);
+        this.cameras.main.setScroll(0, 0);
         this.cameras.main.centerOn(worldW / 2, worldH / 2);
     }
 
