@@ -18,6 +18,20 @@ export class Game extends Phaser.Scene {
         this.initMap();
         this.initPlayer();
         this.initPhysics();
+        this.updateCameraZoom();
+        this.scale.on('resize', () => this.updateCameraZoom());
+    }
+
+    updateCameraZoom(){
+        const worldW = this.mapWidth * this.tileSize;
+        const worldH = this.mapHeight * this.tileSize;
+
+        const viewW = this.scale.width;
+        const viewH = this.scale.height;
+
+        const zoom = Math.min(viewW / worldW, viewH / worldH);
+        this.cameras.main.setZoom(zoom);
+        this.cameras.main.centerOn(worldW / 2, worldH / 2);
     }
 
     update(time, delta) {

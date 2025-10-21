@@ -22,10 +22,13 @@
     }
 
     #game-container {
-      position: fixed;
-      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      height: 100vh;  
+      overflow: hidden;
+      background: #040218;
     }
-    
+
     .frame {
       width: 100%;
       height: 100%;
@@ -45,6 +48,7 @@
 </head>
 
 <body>
+  <div id="game-container"></div>
   <!-- Primary: embed the game folder index so Pages shows the game
          Use URL-encoded space for the folder name. If you rename the folder,
          update the src below accordingly. -->
