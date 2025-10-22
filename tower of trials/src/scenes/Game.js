@@ -19,13 +19,16 @@ export class Game extends Phaser.Scene {
         this.initPlayer();
         this.initPhysics();
 
+        // full-screen background that follows the viewport
         this.bg = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'tiles', 1)
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setDepth(-100);
         
+        // fit the whole map into view on first layout
         this.updateCameraFit();
 
+        // re-fit on any resize / rotation
         this.scale.on('resize', (size) => {
             this.bg.setSize(this.scale.gameSize.width, this.scale.gameSize.height);
             this.updateCameraFit();
@@ -39,6 +42,7 @@ export class Game extends Phaser.Scene {
         const viewW = this.scale.width;
         const viewH = this.scale.height;
 
+        // zoom so the entire map is visible (no cropping)
         const zoom = Math.min(viewW / worldW, viewH / worldH);
 
         this.cameras.main.setZoom(zoom);
@@ -208,7 +212,6 @@ export class Game extends Phaser.Scene {
                     this.enemyStart.x = x;
                     this.enemyStart.y = y;
                 } else if (tile.index === this.tileIds.key || tile.index === this.tileIds.door) {
-                    
                     tile.index = -1;
                 }
             }
@@ -293,14 +296,12 @@ export class Game extends Phaser.Scene {
         const m = this.getMapOffset();
         const worldX = m.x + (x * m.tileSize);
         const worldY = m.y + (y * m.tileSize);
-
         
         this.door = this.physics.add.staticImage(worldX, worldY, 'doorClosed')
             .setDepth(200)
             .setOrigin(0.5, 0.5);
 
         this.door.setDisplaySize(m.tileSize * 1.0, m.tileSize * 2.0);
-
         this.door.refreshBody();
     }
 
