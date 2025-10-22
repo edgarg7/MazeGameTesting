@@ -38,29 +38,41 @@ export class Game extends Phaser.Scene {
     updateCameraFit() {
         const cam = this.cameras.main;
 
-        // Use the real on-screen bounds of your tile layer(s)
-        const b = (this.levelLayer ?? this.groundLayer).getBounds(); // {x,y,width,height}
+        const layer = (this.levelLayer ?? this.groundLayer);
+        const b = layer.getBounds(); 
 
         const viewW = this.scale.width;
         const viewH = this.scale.height;
         const worldW = b.width;
         const worldH = b.height;
 
-        // Zoom so the entire map is visible (no cropping)
         const zoom = Math.min(viewW / worldW, viewH / worldH);
         cam.setZoom(zoom);
 
-        // Tell the camera the map rectangle lives at (b.x, b.y)
-        cam.setBounds(b.x, b.y, b.width, b.height);
+        const padX = Math.max(0, (viewW / zoom - worldW) / 2);
+        const padY = Math.max(0, (viewH / zoom - worldH) / 2);
 
-        // Center on the center of that rectangle
+        cam.setBounds(
+            b.x - padX,
+            b.y - padY,
+            worldW + padX * 2,
+            worldH + padY * 2
+        );
+
         cam.centerOn(b.centerX, b.centerY);
-
-        // Keep physics bounds aligned with what the camera sees (optional but tidy)
+  
         if (this.physics && this.physics.world) {
-            this.physics.world.setBounds(b.x, b.y, b.width, b.height);
+            this.physics.world.setBounds(
+                b.x - padX,
+                b.y - padY,
+                worldW + padX * 2,
+                worldH + padY * 2
+            );
         }
+
+        cam.setRoundPixels(true);
     }
+
 
     update(time, delta) {
         if (!this.gameStarted) return;
