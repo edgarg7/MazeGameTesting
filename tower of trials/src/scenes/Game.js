@@ -36,19 +36,31 @@ export class Game extends Phaser.Scene {
     }
 
     updateCameraFit() {
+        
         const worldW = this.mapWidth * this.tileSize;
         const worldH = this.mapHeight * this.tileSize;
 
         const viewW = this.scale.width;
         const viewH = this.scale.height;
 
-        // zoom so the entire map is visible (no cropping)
         const zoom = Math.min(viewW / worldW, viewH / worldH);
 
-        this.cameras.main.setZoom(zoom);
-        this.cameras.main.setScroll(0, 0);
-        this.cameras.main.centerOn(worldW / 2, worldH / 2);
+        const cam = this.cameras.main;
+        cam.setZoom(zoom);
+
+        const originX = this.mapX; 
+        const originY = this.mapY;
+
+        cam.setBounds(originX, originY, worldW, worldH);
+
+        cam.centerOn(originX + worldW / 2, originY + worldH / 2);
+
+        //
+        if (this.physics && this.physics.world) {
+            this.physics.world.setBounds(originX, originY, worldW, worldH);
+        }
     }
+
 
     update(time, delta) {
         if (!this.gameStarted) return;
