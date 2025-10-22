@@ -120,17 +120,20 @@ export class Game extends Phaser.Scene {
                 fontFamily: 'Arial Black', fontSize: 42, color: '#ffffff',
                 stroke: '#000000', strokeThickness: 8, align: 'center'
             })
-            .setOrigin(0.5).setDepth(100);
+            .setOrigin(0.5).setDepth(100)
+            .setScrollFactor(0);
 
         this.scoreText = this.add.text(20, 20, 'Score: 0', {
             fontFamily: 'Arial Black', fontSize: 28, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
-        }).setDepth(100);
+        }).setDepth(100)
+          .setScrollFactor(0);
 
         this.gameOverText = this.add.text(this.scale.width * 0.5, this.scale.height * 0.5, 'Game Over', {
             fontFamily: 'Arial Black', fontSize: 64, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8, align: 'center'
-        }).setOrigin(0.5).setDepth(100).setVisible(false);
+        }).setOrigin(0.5).setDepth(100).setVisible(false)
+        .setScrollFactor(0);
     }
 
     initAnimations() {
